@@ -24,3 +24,6 @@ class Song(models.Model):
     explicit = models.BooleanField(null=True)
     artists = models.ManyToManyField(Artist)
     genres = models.ManyToManyField(Genre)
+
+    def __str__(self):
+        return self.title
