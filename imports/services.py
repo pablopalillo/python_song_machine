@@ -113,7 +113,7 @@ def get_songs_data(last_song: list):
                 'release_date': release_date,
                 'explicit': is_explicit,
                 'artist_id': artist_id,
-                'genres': genre
+                'genres': genres
             }
         )
 

@@ -28,6 +28,8 @@ class SongManager(models.Manager):
             self._import_data_genres(data_import)
             self._import_data_artist(data_import)
             self._import_data_songs(data_import)
+            self._save_relation(data_import)
+
             return True
         except DatabaseError as e:
             print(e)
@@ -102,9 +104,33 @@ class SongManager(models.Manager):
                 new_song.release_date = item['release_date']
                 new_song.explicit = item['explicit']
 
+                try:
+                    artist = Artist.objects.get(id=item['artist_id'])
+                except Artist.DoesNotExist:
+                    artist = None
+
+                new_song.artist = artist
+
                 songs_model_list.append(new_song)
 
             Song.objects.bulk_create(songs_model_list)
+
+    def _save_relation(self, data: dict):
+        """ Save relation Many-to-many song-genres
+
+        :param data: dict
+        """
+
+        songs = Song.objects.all().only('id')
+        genres_relation_list = []
+        song_relation = Song.genres.through
+
+        for song in songs:
+            for item in data['songs']:
+                for genre in item['genres']:
+                    genres_relation_list.append(song_relation(song_id=song.id, genre_id=genre))
+
+        song_relation.objects.bulk_create(genres_relation_list, ignore_conflicts=True)
 
 
 class Song(models.Model):
