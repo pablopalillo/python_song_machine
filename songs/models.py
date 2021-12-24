@@ -112,7 +112,7 @@ class Song(models.Model):
     title = models.CharField(max_length=100)
     release_date = models.DateField()
     explicit = models.BooleanField(null=True)
-    artists = models.ManyToManyField(Artist)
+    artist = models.ForeignKey(Artist, null=True, on_delete=models.SET_NULL)
     genres = models.ManyToManyField(Genre)
     objects = SongManager()
 
