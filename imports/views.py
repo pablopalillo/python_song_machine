@@ -17,7 +17,7 @@ class ImportDataView(APIView):
 
         try:
 
-            Song.object.import_data()
+            Song.objects.import_data()
 
         except ObjectDoesNotExist:
             raise Http404

@@ -49,6 +49,7 @@ def get_last_song(limit: int):
 def get_genres_data(last_song: list):
 
     list_genders = []
+    list_ids = []
     for song in last_song:
 
         genres = song.get('genres')
@@ -57,7 +58,8 @@ def get_genres_data(last_song: list):
             genre_id = genre.get('genreId')
             genre_name = genre.get('name')
 
-            if str(genre_id) not in list_genders:
+            if str(genre_id) not in list_ids:
+                list_ids.append(str(genre_id))
                 list_genders.append({str(genre_id): genre_name})
 
     return list_genders
@@ -66,6 +68,7 @@ def get_genres_data(last_song: list):
 def get_artist_data(last_song: list):
 
     list_artist = []
+    list_ids = []
     for song in last_song:
 
         name_artist = song.get('artistName')
@@ -74,7 +77,8 @@ def get_artist_data(last_song: list):
         #  for Database simplification cut the origin id for shorter ID
         id_artist = id_artist[:4]
 
-        if str(id_artist) not in list_artist:
+        if str(id_artist) not in list_ids:
+            list_ids.append(str(id_artist))
             list_artist.append({str(id_artist): name_artist})
 
     return list_artist
@@ -85,7 +89,7 @@ def get_songs_data(last_song: list):
     list_songs = []
     for song in last_song:
 
-        title = song.get('artistName')
+        title = song.get('name')
         release_date = song.get('releaseDate')
         is_explicit = song.get('contentAdvisoryRating')
 

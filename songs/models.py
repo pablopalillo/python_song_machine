@@ -55,11 +55,13 @@ class SongManager(models.Manager):
         genres_model_list = []
 
         if data:
-            for key, item in data['genres'].items():
+            for item in data['genres']:
+
+                key, value = list(item.items())[0]
 
                 new_genre = Genre()
                 new_genre.id = key
-                new_genre.name = item
+                new_genre.name = value
 
                 genres_model_list.append(new_genre)
 
@@ -73,11 +75,13 @@ class SongManager(models.Manager):
         artist_model_list = []
 
         if data:
-            for key, item in data['artists'].items():
+            for item in data['artists']:
+
+                key, value = list(item.items())[0]
 
                 new_artist = Artist()
                 new_artist.id = key
-                new_artist.name = item
+                new_artist.name = value
 
                 artist_model_list.append(new_artist)
 
@@ -110,7 +114,7 @@ class Song(models.Model):
     explicit = models.BooleanField(null=True)
     artists = models.ManyToManyField(Artist)
     genres = models.ManyToManyField(Genre)
-    object = SongManager()
+    objects = SongManager()
 
     def __str__(self):
         return self.title
