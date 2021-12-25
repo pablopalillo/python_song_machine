@@ -27,3 +27,14 @@ class SongSerializer(serializers.ModelSerializer):
         model = Song
         fields = ['id', 'title', 'release_date', 'explicit', 'artist', 'genres']
         read_only_fields = ['id']
+
+
+class SongSaveSerializer(serializers.ModelSerializer):
+
+    artist = serializers.PrimaryKeyRelatedField(queryset=Artist.objects.only("id"))
+    genres = serializers.PrimaryKeyRelatedField(queryset=Genre.objects.only("id"), many=True)
+
+    class Meta:
+        model = Song
+        fields = ['id', 'title', 'release_date', 'explicit', 'artist', 'genres']
+        read_only_fields = ['id']
