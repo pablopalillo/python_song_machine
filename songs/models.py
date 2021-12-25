@@ -35,6 +35,16 @@ class SongManager(models.Manager):
             print(e)
             return False
 
+    def select_raw_top(self):
+        """ Select data with SQL
+
+        Select the top 50 of song with raw sql
+
+        :return: RawQuerySet
+        """
+        rawqueryset = Song.objects.raw('SELECT id, title, release_date, explicit FROM songs_song LIMIT 50')
+        return rawqueryset
+
     def _delete_all(self):
 
         Genre.objects.all().delete()

@@ -21,7 +21,7 @@ class SongsList(generics.ListCreateAPIView):
 class SongsTopList(generics.ListCreateAPIView):
     """ Get the top 50 songs
     """
-    queryset = Song.objects.all()[:50]
+    queryset = Song.objects.select_raw_top()
     serializer_class = SongSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
