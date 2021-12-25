@@ -122,13 +122,14 @@ class SongManager(models.Manager):
         """
 
         songs = Song.objects.all().only('id')
-        genres_relation_list = []
         song_relation = Song.genres.through
+        genres_relation_list = []
 
         for song in songs:
             for item in data['songs']:
-                for genre in item['genres']:
-                    genres_relation_list.append(song_relation(song_id=song.id, genre_id=genre))
+                if song.title == item['title']:
+                    for genre in item['genres']:
+                        genres_relation_list.append(song_relation(song_id=song.id, genre_id=int(genre)))
 
         song_relation.objects.bulk_create(genres_relation_list, ignore_conflicts=True)
 
