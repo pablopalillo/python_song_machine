@@ -125,7 +125,7 @@ def get_list_data():
 
     :return: List
     """
-    last_songs = get_last_song(50)
+    last_songs = get_last_song(100)
     songs_format_data = {}
 
     if last_songs:
