@@ -1,5 +1,4 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.db import DatabaseError
 from django.http import Http404
 
 from rest_framework import generics, viewsets, status
@@ -35,6 +34,17 @@ class SongsView(viewsets.ViewSet):
         if song_serializer.is_valid(raise_exception=True):
             song_serializer.save()
         return Response(status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id_song):
+
+        try:
+            song = Song.objects.get(id=id_song)
+            song.delete()
+
+            return Response(status.HTTP_200_OK)
+
+        except ObjectDoesNotExist:
+            raise Http404
 
 
 class SongsTopList(generics.ListCreateAPIView):
