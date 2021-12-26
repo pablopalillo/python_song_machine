@@ -7,8 +7,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .serializers import SongSerializer, SongSaveSerializer
-from .models import Song
+from .serializers import SongSerializer, SongSaveSerializer, GenreGroupSerializer
+from .models import Song, Genre
 
 
 class SongsView(viewsets.ViewSet):
@@ -52,5 +52,14 @@ class SongsTopList(generics.ListCreateAPIView):
     """
     queryset = Song.objects.select_raw_top()
     serializer_class = SongSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+
+class SongsByGroup(generics.ListCreateAPIView):
+    """ View response groups with song related.
+    """
+    queryset = Genre.objects.all()
+    serializer_class = GenreGroupSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]

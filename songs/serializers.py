@@ -29,6 +29,14 @@ class SongSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 
+class SongSimpleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Song
+        fields = ['id', 'title', 'release_date', 'explicit', 'artist']
+        read_only_fields = ['id']
+
+
 class SongSaveSerializer(serializers.ModelSerializer):
 
     artist = serializers.PrimaryKeyRelatedField(queryset=Artist.objects.only("id"))
@@ -38,3 +46,14 @@ class SongSaveSerializer(serializers.ModelSerializer):
         model = Song
         fields = ['id', 'title', 'release_date', 'explicit', 'artist', 'genres']
         read_only_fields = ['id']
+
+
+class GenreGroupSerializer(serializers.ModelSerializer):
+
+    songs = serializers.PrimaryKeyRelatedField(queryset=Song.objects.only("id"), many=True)
+
+    class Meta:
+        model = Genre
+        fields = ['id', 'name', 'songs']
+        read_only_fields = ['id']
+
