@@ -21,7 +21,7 @@ class SongsView(viewsets.ViewSet):
     def list(self, request):
 
         try:
-            queryset = Song.objects.all()
+            queryset = Song.objects.select_related("artist")
             serializer = SongSerializer(queryset, many=True)
             return Response(serializer.data)
 
@@ -59,7 +59,7 @@ class SongsTopList(generics.ListCreateAPIView):
 class SongsByGroup(generics.ListCreateAPIView):
     """ View response groups with song related.
     """
-    queryset = Genre.objects.all()
+    queryset = Genre.objects.prefetch_related("songs")
     serializer_class = GenreGroupSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [TokenAuthentication]
