@@ -50,10 +50,9 @@ class SongSaveSerializer(serializers.ModelSerializer):
 
 class GenreGroupSerializer(serializers.ModelSerializer):
 
-    songs = serializers.PrimaryKeyRelatedField(queryset=Song.objects.only("id"), many=True)
+    songs = SongSimpleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Genre
-        fields = ['id', 'name', 'songs']
+        fields = ['id', 'name', 'songs', 'songs']
         read_only_fields = ['id']
-

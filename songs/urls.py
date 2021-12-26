@@ -14,4 +14,5 @@ urlpatterns = [
       name="Delete Song"
    ),
    path('api/songs/top', views.SongsTopList.as_view()),
+   path('api/genders', views.SongsByGroup.as_view()),
 ]
